@@ -61,8 +61,10 @@ class BinarySearchTree:
         if left_size > ind and self.left is not None:
             return self.left.select(ind)
         if left_size < ind and self.right is not None:
-            return self.right.select(ind)
+            return self.right.select(ind - left_size - 1)
         return None
+    
+    # Select wrong, need to increment or decrement ind
 
 
     '''
@@ -94,14 +96,17 @@ class BinarySearchTree:
         elif self.key > key: 
             if self.left is None:
                 self.left = BinarySearchTree(self.debugger)
+            self.size += 1
             self.left.insert(key)
         elif self.key < key:
             if self.right is None:
                 self.right = BinarySearchTree(self.debugger)
+            self.size += 1
             self.right.insert(key)
-        self.calculate_sizes()
+        # self.calculate_sizes()
         return self
 
+    # Runtime becuase calculate sizes() 
     
     ####### Part b #######
 
@@ -128,6 +133,27 @@ class BinarySearchTree:
     '''
     def rotate(self, direction, child_side):
         # Your code goes here
+        rotated_subtree = self.left if child_side == "L" else self.right
+        if rotated_subtree == None:
+            return self
+        if direction == "L":
+            if child_side == "L":
+                self.left = rotated_subtree.right
+                rotated_subtree.right = rotated_subtree.right.left
+                self.left.left = rotated_subtree
+            else:
+                self.right = rotated_subtree.right
+                rotated_subtree.right = rotated_subtree.right.left
+                self.right.left = rotated_subtree
+        else:
+            if child_side == "L":
+                self.left = rotated_subtree.left
+                rotated_subtree.left = rotated_subtree.left.right
+                self.left.right = rotated_subtree
+            else:
+                self.right = rotated_subtree.left
+                rotated_subtree.left = rotated_subtree.left.right
+                self.right.right = rotated_subtree
         return self
 
     def print_bst(self):
