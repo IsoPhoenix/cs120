@@ -138,22 +138,54 @@ class BinarySearchTree:
             return self
         if direction == "L":
             if child_side == "L":
+                total_size = rotated_subtree.size
+                subtree_root_new_size = rotated_subtree.size - rotated_subtree.right.size
+                if rotated_subtree.right.left != None:
+                    subtree_root_new_size += rotated_subtree.right.left.size
+
                 self.left = rotated_subtree.right
                 rotated_subtree.right = rotated_subtree.right.left
                 self.left.left = rotated_subtree
+
+                self.left.size = total_size
+                self.left.left.size = subtree_root_new_size
             else:
+                total_size = rotated_subtree.size
+                subtree_root_new_size = rotated_subtree.size - rotated_subtree.right.size
+                if rotated_subtree.right.left != None:
+                    subtree_root_new_size += rotated_subtree.right.left.size
+
                 self.right = rotated_subtree.right
                 rotated_subtree.right = rotated_subtree.right.left
                 self.right.left = rotated_subtree
+
+                self.right.size = total_size
+                self.right.left.size = subtree_root_new_size
         else:
             if child_side == "L":
+                total_size = rotated_subtree.size
+                subtree_root_new_size = rotated_subtree.size - rotated_subtree.left.size
+                if rotated_subtree.left.right != None:
+                    subtree_root_new_size += rotated_subtree.left.right.size
+
                 self.left = rotated_subtree.left
                 rotated_subtree.left = rotated_subtree.left.right
                 self.left.right = rotated_subtree
+
+                self.left.size = total_size
+                self.left.right.size = subtree_root_new_size
             else:
+                total_size = rotated_subtree.size
+                subtree_root_new_size = rotated_subtree.size - rotated_subtree.left.size
+                if rotated_subtree.left.right != None:
+                    subtree_root_new_size += rotated_subtree.left.right.size
+
                 self.right = rotated_subtree.left
                 rotated_subtree.left = rotated_subtree.left.right
                 self.right.right = rotated_subtree
+
+                self.right.size = total_size
+                self.right.right.size = subtree_root_new_size
         return self
 
     def print_bst(self):
