@@ -45,33 +45,39 @@ def executeProgram(programArr, inputArr):
         if cmd == "assign":
             # ['assign', i, j]: assign var_i to the value j
             # TODO: Implement assign.
-            pass
+            variableList[ops[0]] = ops[1]
             
         # Arithmetic commands
         if cmd == "+":
             # ['+', i, j, k]: compute (var_j + var_k) and store in var_i
             # TODO: Implement addition.
-            pass
+            variableList[ops[0]] = variableList[ops[1]] + variableList[ops[2]]
+     
         if cmd == "-":
             # ['-', i, j, k]: compute max((var_j - var_k), 0) and store in var_i.
             # TODO: Implement subtraction.
-            pass
+            variableList[ops[0]] = max(variableList[ops[1]] - variableList[ops[2]], 0)
+            
         if cmd == "*":
             # ['*', i, j, k]: compute (var_j * var_k) and store in var_i.
             # TODO: Implement multiplication.
-            pass
+            variableList[ops[0]] = variableList[ops[1]] * variableList[ops[2]]
+          
         if cmd == "/":
             #  ['/', i, j, k]: compute (var_j // var_k) and store in var_i.
             # Note that this is integer division. You should return an integer, not a float.
             # Remember division by 0 results in 0.
-            # TODO: Implement division.
-            pass
+            # TODO: Implement division. 
+            variableList[ops[0]] = 0 if variableList[ops[2]] == 0 else variableList[ops[1]] // variableList[ops[2]]
+         
             
         # Control commands
         if cmd == "goto":
             # ['goto', i, j]: if var_i is equal to 0, go to line j
             # TODO: Implement goto.
-            pass
+            if variableList[ops[0]] == 0:
+                programCounter = ops[1] - 1
+          
         
         programCounter += 1
     
