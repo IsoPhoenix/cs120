@@ -31,12 +31,28 @@ returns: An key-value pair (Kj, Vj) such that Kj is an i’th smallest key.
 
 
 def QuickSelect(arr, i):
+    if len(arr) <= 1:
+        return arr[0]
+    else:
+        p = get_random_index(arr)
+        bigP = arr[p][0]
+        a_less = [x for x in arr if x[0] < bigP]
+        a_greater = [x for x in arr if x[0] > bigP]
+        a_equal = [x for x in arr if x[0] == bigP]
+        n_less = len(a_less)
+        n_greater = len(a_greater)
+        n_equal = len(a_equal)
+        if i < n_less:
+            return QuickSelect(a_less, i)
+        elif i >= n_less + n_equal:
+            return QuickSelect(a_greater, i - n_less - n_equal)
+        else:
+            return a_equal[0]
+
     # Your code here
 
     # Feel free to use get_random_index(arr) or get_random_int(start_inclusive, end_inclusive)
     # ... see the helper functions below
-    pass
-    return (0, -1)
 
 
 '''
