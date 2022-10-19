@@ -1,4 +1,5 @@
 from itertools import product, combinations
+import math
 
 '''
 Before you start: Read the README and the Graph implementation below.
@@ -161,7 +162,9 @@ def bfs_2_coloring(G, precolored_nodes=None):
 # Checks if subset is an independent set in G 
 def is_independent_set(G, subset):
     # TODO: Complete this function
-
+    for node in subset:
+        if G.edges[node].intersection(subset):
+            return False
     return True
 
 '''
@@ -188,8 +191,48 @@ def is_independent_set(G, subset):
 # If successful, modifies G.colors and returns the coloring.
 # If no coloring is possible, resets all of G's colors to None and returns None.
 def iset_bfs_3_coloring(G):
-    # TODO: Complete this function.
+    # # TODO: Complete this function.
+    V = list(range(G.N))
+    for size in range(G.N // 3 + 1):
+        subsets = combinations(V, size)
+        for S in subsets:
+            set_S = set(S)
+            if is_independent_set(G, set_S):
+                N_negS = G.N
+                E_negS = [set() if idx in set_S else element.difference(set_S) for idx, element in enumerate(G.edges)]
+                
+                f_negS = bfs_2_coloring(Graph(N_negS, E_negS, G.colors), set_S)
+                if f_negS:
+                    G.colors = f_negS
+                    if G.is_graph_coloring_valid():
+                        return f_negS
 
+
+
+
+    # V = [x for x in range(G.N)]
+    # for size in range(1, math.floor(G.N / 3) + 1):
+    #     subsets = combinations(V, size)
+    #     for subset in subsets:
+    #         set_subset = set(subset)
+    #         if is_independent_set(G, set_subset):
+    #             N_negS = G.N
+    #             E_negS = G.edges
+    #             for index in set_subset:
+    #                 E_negS[index] = set()
+    #             for neighborSet in G.edges:
+    #                 neighborSet = neighborSet.difference(set_subset)
+    #             E_negS = list(map(lambda neighborSet: neighborSet.difference(set_subset), E_negS))
+                
+    #             # map(lambda neighbors: set() if G.edges.index(neighbors) in set_subset else neighbors.difference(set_subset), G.edges)
+                
+    #             G_negS = Graph(N_negS, E_negS)
+
+    #             f_negS = bfs_2_coloring(G_negS, set_subset)
+    #             if f_negS:
+    #                 G.colors = f_negS
+    #                 return G.colors
+                
     G.reset_colors()
     return None
 
