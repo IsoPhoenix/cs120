@@ -128,8 +128,72 @@ def bfs_2_coloring(G, precolored_nodes=None):
             return G.colors
     
     # TODO: Complete this function by implementing two-coloring using the colors 0 and 1.
-    # If there is no valid coloring, reset all the colors to None using G.reset_colors()
+    V = {x for x in range(G.N)}
+
+    for v in range(G.N):
+        # Check that it's not precolored
+        if G.colors[v] == None:
+            # BFS from start vertex
+            s = v
+            S = {s}
+            F = {s}
+            d = 0
+            while F:
+                # Color things in F
+                for i in F:
+                    G.colors[i] = 0 if set(filter(lambda edge: G.colors[edge] == 1, G.edges[i])) else 1
+                F = set(filter(lambda vertex: len(G.edges[vertex].intersection(F)) != 0, V.difference(S)))
+                S = S.union(F)
+
+        if G.is_graph_coloring_valid():
+            return G.colors
+
+    # # Partition into connected components
+    # S = ["*" for x in range(G.N)]
+    # l = 0
+
+    # def bfs_label(s):
+    #     S[s] = l
+    #     F = {s}
+    #     d = 0
+    #     while F:
+    #         F = set(filter(lambda v: len(G.edges[v].intersection(F)) != 0 and S[v] != l, [v for v in G.N]))
+    #         for v in F:
+    #             S[v] = l
+    #         d += 1
+
+    # for s in range(G.N):
+    #     if S[s] == "*":
+    #         bfs_label(s)
+    #         l += 1
     
+    # # The number l of connected components in G and a partition of G into those components, speciﬁed by an array S of length n = | V | with entries from [l]
+    # cc_result = (l, S)
+
+    # for cc_id in range(l):
+    #     startVertex = list(x == cc_id for x in S).index(True)
+
+
+
+
+
+
+    # Contains index and associated connected component id
+    # S_new = {(x, S[x]) for x in range(G.N)}
+
+    # # Use BFS on each component
+    # for ccLabel in range(l):
+    #     cGraphVertices = filter(lambda x: S_new[x][1] == ccLabel, S_new)
+    #     bfs_S = cGraphVertices[0]
+    #     bfs_F = cGraphVertices[0]
+    #     d = 0
+    #     while bfs_F:
+    #         # do things
+    #         # below won't work in the intersection portion because sets are not composed analogously
+    #         bfs_F = filter(lambda v: len(G.edges[v[0]].intersection(bfs_F)) != 0, cGraphVertices.difference(bfs_S))
+
+
+    # If there is no valid coloring, reset all the colors to None using G.reset_colors()
     G.reset_colors()
     return None
 
