@@ -129,15 +129,14 @@ def bfs_2_coloring(G, precolored_nodes=None):
     
     # TODO: Complete this function by implementing two-coloring using the colors 0 and 1.
     V = {x for x in range(G.N)}
-    S = set()
+    first_uncolored = next((x for x in V if G.colors[x] == None), None)
+    S = {first_uncolored} if first_uncolored else set()
 
     for v in range(G.N):
         # Check that it's not precolored
         if G.colors[v] == None:
             # BFS from start vertex
             s = v
-            if not S:    
-                S = {s}
             F = {s}
             d = 0
             while F:
