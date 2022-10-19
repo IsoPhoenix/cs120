@@ -129,13 +129,15 @@ def bfs_2_coloring(G, precolored_nodes=None):
     
     # TODO: Complete this function by implementing two-coloring using the colors 0 and 1.
     V = {x for x in range(G.N)}
+    S = set()
 
     for v in range(G.N):
         # Check that it's not precolored
         if G.colors[v] == None:
             # BFS from start vertex
             s = v
-            S = {s}
+            if not S:    
+                S = {s}
             F = {s}
             d = 0
             while F:
@@ -147,51 +149,6 @@ def bfs_2_coloring(G, precolored_nodes=None):
 
         if G.is_graph_coloring_valid():
             return G.colors
-
-    # # Partition into connected components
-    # S = ["*" for x in range(G.N)]
-    # l = 0
-
-    # def bfs_label(s):
-    #     S[s] = l
-    #     F = {s}
-    #     d = 0
-    #     while F:
-    #         F = set(filter(lambda v: len(G.edges[v].intersection(F)) != 0 and S[v] != l, [v for v in G.N]))
-    #         for v in F:
-    #             S[v] = l
-    #         d += 1
-
-    # for s in range(G.N):
-    #     if S[s] == "*":
-    #         bfs_label(s)
-    #         l += 1
-    
-    # # The number l of connected components in G and a partition of G into those components, speciﬁed by an array S of length n = | V | with entries from [l]
-    # cc_result = (l, S)
-
-    # for cc_id in range(l):
-    #     startVertex = list(x == cc_id for x in S).index(True)
-
-
-
-
-
-
-    # Contains index and associated connected component id
-    # S_new = {(x, S[x]) for x in range(G.N)}
-
-    # # Use BFS on each component
-    # for ccLabel in range(l):
-    #     cGraphVertices = filter(lambda x: S_new[x][1] == ccLabel, S_new)
-    #     bfs_S = cGraphVertices[0]
-    #     bfs_F = cGraphVertices[0]
-    #     d = 0
-    #     while bfs_F:
-    #         # do things
-    #         # below won't work in the intersection portion because sets are not composed analogously
-    #         bfs_F = filter(lambda v: len(G.edges[v[0]].intersection(bfs_F)) != 0, cGraphVertices.difference(bfs_S))
-
 
     # If there is no valid coloring, reset all the colors to None using G.reset_colors()
     G.reset_colors()
