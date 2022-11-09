@@ -40,7 +40,6 @@ def QuickSelect(arr, i):
         a_greater = [x for x in arr if x[0] > bigP]
         a_equal = [x for x in arr if x[0] == bigP]
         n_less = len(a_less)
-        n_greater = len(a_greater)
         n_equal = len(a_equal)
         if i < n_less:
             return QuickSelect(a_less, i)
@@ -68,10 +67,11 @@ NOTE: This is different from the QuickSelect definition. This function takes in 
 
 
 def MergeSortSelect(arr, query_list):
+    sortedArr = MergeSort(arr)
+    return [sortedArr[x] for x in query_list]
+
     # Only call MergeSort once
     # ... MergeSort has already been implemented for you (see below)
-    pass
-    return [(0, -1)] * len(query_list)  # replace this line with your return
 
 
 ##################################
@@ -83,13 +83,13 @@ def MergeSortSelect(arr, query_list):
 
 def experiments():
     # Edit this parameter
-    k = [1, 1, 1, 1, 1]
+    k = list(range(30, 40))
 
     # Feel free to edit these initial parameters
 
     RUNS = 20  # Number of runs for each trial; more runs means better distributions approximation but longer experiment
     HEIGHT = 1.5  # Height of a chart
-    WIDTH = 3   # Width of a chart
+    WIDTH = 2   # Width of a chart
     # Determines if subcharts share the same axis scale/limits
     # ... since the trails cover a wide range, sharing the same scale/limits can cause some lines to be too small.
     SAME_AXIS_SCALE = False
