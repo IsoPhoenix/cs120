@@ -191,6 +191,15 @@ def sat_3_coloring(G):
     solver = Glucose3()
 
     # TODO: Add the clauses to the solver
+    for vertex in range(G.N):
+        solver.add_clause([3 * vertex + 1, 3 * vertex + 2, 3 * vertex + 3])
+
+    for vertex, neighbors in enumerate(G.edges):
+        for neighbor in neighbors:
+            if neighbor > vertex:
+                solver.add_clause([-(3 * vertex + 1), -(3 * neighbor + 1)])
+                solver.add_clause([-(3 * vertex + 2), -(3 * neighbor + 2)])
+                solver.add_clause([-(3 * vertex + 3), -(3 * neighbor + 3)])
 
     # Attempt to solve, return None if no solution possible
     if not solver.solve():
@@ -201,6 +210,14 @@ def sat_3_coloring(G):
     solution = solver.get_model()
 
     # TODO: If a solution is found, convert it into a coloring and update G.colors
+    if solution:
+        for v in range(G.N):
+            if solution[3 * v + 0 + 1] > 0:
+                G.colors[v] = 0
+            elif solution[3 * v + 1 + 1] > 0:
+                G.colors[v] = 1
+            else:
+                G.colors[v] = 2
 
     return G.colors
 
